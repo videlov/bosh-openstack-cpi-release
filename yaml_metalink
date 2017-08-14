@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<repository xmlns="https://dpb587.github.io/metalink-repository/schema-0.1.0.xsd">
+    <metalink xmlns="urn:ietf:params:xml:ns:metalink">
+      <file name="openssl-.tar.gz">
+        <size></size>
+        <url priority="1000">http://pyyaml.org/download/libyaml/yaml-.tar.gz</url>
+        <version></version>
+      </file>
+    </metalink>
+</repository>
