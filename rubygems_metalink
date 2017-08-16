@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<repository xmlns="https://dpb587.github.io/metalink-repository/schema-0.1.0.xsd">
+    <metalink xmlns="urn:ietf:params:xml:ns:metalink">
+      <file name="rubygems-2.6.12.tar.gz">
+        <size>767895</size>
+        <url>https://rubygems.org/rubygems/rubygems-2.6.12.tgz</url>
+        <version>2.6.12</version>
+      </file>
+    </metalink>
+</repository>
