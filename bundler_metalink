@@ -3,7 +3,7 @@
     <metalink xmlns="urn:ietf:params:xml:ns:metalink">
       <file name="bundler-1.15.4.gem">
         <hash type="sha-256">fad17ea3a1c15df2f2a7fcea052b35ebeab0dc87906cd762470637bef8c98472</hash>
-        <size>131</size>
+        <size>14187859</size>
         <url>https://rubygems.org/downloads/bundler-1.15.4.gem</url>
         <version>1.15.4</version>
       </file>
