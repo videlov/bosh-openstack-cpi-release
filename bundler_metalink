@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <repository xmlns="https://dpb587.github.io/metalink-repository/schema-0.1.0.xsd">
     <metalink xmlns="urn:ietf:params:xml:ns:metalink">
-      <file name="bundler-1.15.4.gem">
-        <hash type="sha-256">fad17ea3a1c15df2f2a7fcea052b35ebeab0dc87906cd762470637bef8c98472</hash>
+      <file name="bundler-1.16.0.gem">
+        <hash type="sha-256">084e7ebe90cc5236520ad49d4c5d9f58b19a98751a249070296a5943f88adb74</hash>
         <size>14187859</size>
-        <url>https://rubygems.org/downloads/bundler-1.15.4.gem</url>
-        <version>1.15.4</version>
+        <url>https://rubygems.org/downloads/bundler-1.16.0.gem</url>
+        <version>1.16.0</version>
       </file>
     </metalink>
 </repository>
