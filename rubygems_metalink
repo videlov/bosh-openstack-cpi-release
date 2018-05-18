@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <repository xmlns="https://dpb587.github.io/metalink-repository/schema-0.1.0.xsd">
     <metalink xmlns="urn:ietf:params:xml:ns:metalink">
-      <file name="rubygems-2.7.6.tar.gz">
-        <size>852486</size>
-        <url>https://rubygems.org/rubygems/rubygems-2.7.6.tgz</url>
-        <version>2.7.6</version>
+      <file name="rubygems-2.7.7.tar.gz">
+        <size>915847</size>
+        <url>https://rubygems.org/rubygems/rubygems-2.7.7.tgz</url>
+        <version>2.7.7</version>
       </file>
     </metalink>
 </repository>
