@@ -3,6 +3,7 @@
     check:
       jobs:
         - bosh-openstack-cpi-release-acceptance-test
+        - bosh-openstack-cpi-release-acceptance-test-rocky
         - bosh-openstack-cpi-release-acceptance-test-queens
         - bosh-openstack-cpi-release-acceptance-test-pike
         - bosh-openstack-cpi-release-acceptance-test-ocata
@@ -10,6 +11,8 @@
     periodic:
       jobs:
         - bosh-openstack-cpi-release-acceptance-test:
+            branches: master
+        - bosh-openstack-cpi-release-acceptance-test-rocky:
             branches: master
         - bosh-openstack-cpi-release-acceptance-test-queens:
             branches: master
@@ -26,6 +29,16 @@
     description: |
       This job validation tests of bosh-openstack-cpi-release aganist OpenStack master branch
     run: .zuul/playbooks/bosh-openstack-cpi-release-acceptance-test/run.yaml
+
+- job:
+    name: bosh-openstack-cpi-release-acceptance-test-rocky
+    parent: bosh-openstack-cpi-release-acceptance-test
+    description: |
+      This job validation tests of bosh-openstack-cpi-release aganist OpenStack Rocky release
+    vars:
+      global_env:
+        OS_BRANCH: stable/rocky
+    nodeset: ubuntu-bionic
 
 - job:
     name: bosh-openstack-cpi-release-acceptance-test-queens
