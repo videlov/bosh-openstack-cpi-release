@@ -17,7 +17,7 @@ module Bosh::OpenStackCloud
       if @cloud_properties.key?('image_id')
         LightStemcellCreator.new(@logger, @openstack, @cloud_properties)
       else
-        if @openstack.image.class.to_s.include?('Fog::Image::OpenStack::V1')
+        if @openstack.image.class.to_s.include?('Fog::OpenStack::Image::V1')
           StemcellCreatorV1.new(@logger, @openstack, @cloud_properties)
         else
           StemcellCreatorV2.new(@logger, @openstack, @cloud_properties)

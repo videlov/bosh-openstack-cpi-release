@@ -93,7 +93,7 @@ describe Bosh::OpenStackCloud::Cloud do
 
       context 'and NO vm_type `type`' do
         it 'sets to nil' do
-          expect(cpi_for_volume.volume.class.to_s).to start_with('Fog::Volume::OpenStack::V2')
+          expect(cpi_for_volume.volume.class.to_s).to start_with('Fog::OpenStack::Volume::V2')
           volume_lifecycle
         end
       end
@@ -102,7 +102,7 @@ describe Bosh::OpenStackCloud::Cloud do
         let(:cloud_properties) { { 'type' => supported_volume_type } }
 
         it 'sets to volumes_ceph' do
-          expect(cpi_for_volume.volume.class.to_s).to start_with('Fog::Volume::OpenStack::V2')
+          expect(cpi_for_volume.volume.class.to_s).to start_with('Fog::OpenStack::Volume::V2')
           volume_lifecycle(supported_volume_type)
         end
       end
@@ -114,7 +114,7 @@ describe Bosh::OpenStackCloud::Cloud do
         let(:cloud_properties) { { 'type' => supported_volume_type } }
 
         it 'overrides to type' do
-          expect(cpi_for_volume.volume.class.to_s).to start_with('Fog::Volume::OpenStack::V2')
+          expect(cpi_for_volume.volume.class.to_s).to start_with('Fog::OpenStack::Volume::V2')
           volume_lifecycle(supported_volume_type)
         end
       end
@@ -123,7 +123,7 @@ describe Bosh::OpenStackCloud::Cloud do
         let(:cpi_for_volume) { @config.create_cpi(default_volume_type: supported_volume_type) }
 
         it 'uses the default_volume_type' do
-          expect(cpi_for_volume.volume.class.to_s).to start_with('Fog::Volume::OpenStack::V2')
+          expect(cpi_for_volume.volume.class.to_s).to start_with('Fog::OpenStack::Volume::V2')
           volume_lifecycle(supported_volume_type)
         end
       end
@@ -139,7 +139,7 @@ describe Bosh::OpenStackCloud::Cloud do
         end
 
         it 'exercises the volume lifecycle' do
-          expect(cpi_for_volume.volume.class.to_s).to start_with('Fog::Volume::OpenStack::V1')
+          expect(cpi_for_volume.volume.class.to_s).to start_with('Fog::OpenStack::Volume::V1')
           volume_lifecycle
         end
       end
@@ -171,6 +171,6 @@ describe Bosh::OpenStackCloud::Cloud do
   end
 
   def force_volume_v1(error_type)
-    allow(Fog::Volume::OpenStack::V2).to receive(:new).and_raise(error_type)
+    allow(Fog::OpenStack::Volume::V2).to receive(:new).and_raise(error_type)
   end
 end
