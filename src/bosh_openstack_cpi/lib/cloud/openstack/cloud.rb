@@ -22,7 +22,9 @@ module Bosh::OpenStackCloud
     # @option options [Hash] openstack OpenStack specific options
     # @option options [Hash] agent agent options
     # @option options [Hash] registry agent options
-    def initialize(options)
+    # @option cpi_api_version CPI API Version as requested by BOSH director
+    def initialize(options, cpi_api_version = 1)
+      @cpi_api_version = cpi_api_version
       @options = normalize_options(options)
 
       validate_options
@@ -153,7 +155,13 @@ module Bosh::OpenStackCloud
 
         vm_factory = VmFactory.new(@openstack, server, create_vm_params, disk_locality, @az_provider, openstack_properties)
         network_configurator = NetworkConfigurator.new(network_spec, cloud_properties['allowed_address_pairs'])
-        vm_factory.create_vm(network_configurator, agent_id, environment, stemcell_id, cloud_properties)
+        instance_id = vm_factory.create_vm(network_configurator, agent_id, environment, stemcell_id, cloud_properties)
+
+        if @cpi_api_version >= 2
+          [instance_id, network_configurator.network_spec]
+        else
+          instance_id
+        end
       end
     end
 
@@ -317,6 +325,10 @@ module Bosh::OpenStackCloud
           settings['disks'] ||= {}
           settings['disks']['persistent'] ||= {}
           settings['disks']['persistent'][disk_id] = device_name
+        end
+
+        if @cpi_api_version >= 2
+          device_name
         end
       end
     end
@@ -493,7 +505,7 @@ module Bosh::OpenStackCloud
     # Information about Openstack CPI, currently supported stemcell formats
     # @return [Hash] Openstack CPI properties
     def info
-      { 'stemcell_formats' => ['openstack-raw', 'openstack-qcow2', 'openstack-light'] }
+      { 'api_version' => 2, 'stemcell_formats' => ['openstack-raw', 'openstack-qcow2', 'openstack-light'] }
     end
 
     ##
@@ -739,6 +751,7 @@ module Bosh::OpenStackCloud
             optional('human_readable_vm_names') => bool,
             optional('use_dhcp') => bool,
             optional('use_nova_networking') => bool,
+            optional('vm') => Hash,
           },
           'registry' => {
             'endpoint' => String,
@@ -767,9 +780,17 @@ module Bosh::OpenStackCloud
       registry_user       = registry_properties.fetch('user')
       registry_password   = registry_properties.fetch('password')
 
-      @registry = Bosh::Cpi::RegistryClient.new(registry_endpoint,
+      if agent_api_version == 2
+        @registry = Bosh::OpenStackCloud::NoopRegistry.new
+      else
+        @registry = Bosh::Cpi::RegistryClient.new(registry_endpoint,
                                                 registry_user,
                                                 registry_password)
+      end
+    end
+
+    def agent_api_version
+      @options.dig('openstack', 'vm', 'stemcell', 'api_version')
     end
 
     def normalize_options(options)

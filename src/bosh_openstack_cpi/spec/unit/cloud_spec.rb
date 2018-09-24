@@ -182,7 +182,26 @@ describe Bosh::OpenStackCloud::Cloud do
 
     it 'returns correct info' do
       cpi = Bosh::OpenStackCloud::Cloud.new(cloud_options['properties'])
-      expect(cpi.info).to eq('stemcell_formats' => ['openstack-raw', 'openstack-qcow2', 'openstack-light'])
+      expect(cpi.info).to eq('api_version' => 2, 'stemcell_formats' => ['openstack-raw', 'openstack-qcow2', 'openstack-light'])
+    end
+  end
+
+  context 'when agent supports API V2' do
+    let(:cloud_options) do
+      options = mock_cloud_options
+      options['properties']['openstack'].merge!(
+        'vm' => {
+          'stemcell' => {
+            'api_version' => 2,
+          }
+        }
+      )
+      options
+    end
+
+    it 'creates a Noop Registry' do
+      cpi = Bosh::OpenStackCloud::Cloud.new(cloud_options['properties'])
+      expect(cpi.registry).to be_instance_of(Bosh::OpenStackCloud::NoopRegistry)
     end
   end
 end

@@ -81,8 +81,9 @@ describe Bosh::OpenStackCloud::Cloud, 'create_vm' do
   let(:scheduler_hints) { nil }
   let(:options) { mock_cloud_options['properties'] }
   let(:environment) { { 'test_env' => 'value' } }
+  let(:cpi_api_version) { 1 }
   let(:cloud) do
-    mock_cloud(options) do |fog|
+    mock_cloud(options, cpi_api_version) do |fog|
       allow(fog.image.images).to receive(:find_by_id).and_return(image)
       allow(fog.compute.servers).to receive(:create).and_return(server)
       allow(fog.compute.flavors).to receive(:find).and_return(flavor)
@@ -1001,6 +1002,20 @@ describe Bosh::OpenStackCloud::Cloud, 'create_vm' do
       }.to raise_error(Bosh::Clouds::CloudError)
       expect(cloud.compute.servers).to have_received(:create).with(include(availability_zone: 'az-1'))
       expect(cloud.compute.servers).to have_received(:create).with(include(availability_zone: 'az-2'))
+    end
+  end
+
+  context 'when requested cpi api version is 2' do
+    let(:cpi_api_version){2}
+
+    let(:network_configuration){
+      { 'network_a' => dynamic_network_spec }
+    }
+    it 'returns instance_id and network configuration' do
+      res = cloud.create_vm('agent-id', 'sc-id', resource_pool_spec, network_configuration, nil, environment)
+      expect(res).to be_a(Array)
+      expect(res[0]).to eq('i-test')
+      expect(res[1]).to eq(network_configuration)
     end
   end
 end
